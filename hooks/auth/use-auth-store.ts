@@ -105,9 +105,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
         status: "unauthenticated", // Mantener como no autenticado hasta confirmar email
         error: null,
       });
-
-      // Mostrar mensaje de verificación de email
-      alert("Por favor, verifica tu email para continuar");
     } catch (error: any) {
       console.error("Error de registro:", error);
       set({

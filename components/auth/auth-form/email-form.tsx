@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import  Link  from "next/link";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/hooks/auth/use-auth-store";
@@ -21,15 +21,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AUTH_ROUTES } from "@/lib/auth/constants";
+import { AUTH_ROUTES, AUTH_MESSAGES, AUTH_ERRORS } from "@/lib/auth/constants";
 import { Eye, EyeOff } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface EmailFormProps {
   isRegister?: boolean;
 }
 export function EmailForm({ isRegister = false }: EmailFormProps) {
   const { signIn, signUp, isLoading, error } = useAuthStore();
+  const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<LoginFormData | RegisterFormData>({
     resolver: zodResolver(isRegister ? registerSchema : loginSchema),
@@ -44,15 +47,33 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
     try {
       if (isRegister) {
         await signUp(data as RegisterFormData);
+        toast({
+          title: "Registro exitoso",
+          description: AUTH_MESSAGES.CHECK_EMAIL,
+        });
+        form.reset({
+          email: "",
+          password: "",
+          name: "",
+          confirmPassword: "",
+        });
       } else {
         const user = await signIn(data as LoginFormData);
         if (user) {
-          console.log("Login exitoso, redirigiendo...");
+          toast({
+            title: "¡Bienvenido!",
+            description: AUTH_MESSAGES.LOGIN_SUCCESS,
+          });
           window.location.href = AUTH_ROUTES.DASHBOARD;
         }
       }
     } catch (err) {
       console.error("Error en formulario:", err);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error || AUTH_ERRORS.UNKNOWN,
+      });
     }
   };
 
@@ -133,15 +154,10 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
                     ) : (
                       <Eye className="h-4 w-4 text-muted-foreground" />
                     )}
-                    <span className="sr-only">
-                      {showPassword
-                        ? "Ocultar contraseña"
-                        : "Mostrar contraseña"}
-                    </span>
                   </Button>
                 </div>
               </FormControl>
-              <FormMessage className="text-xs sm:text-sm" />
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -155,7 +171,7 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
                 <FormControl>
                   <div className="relative">
                     <Input
-                      type={showPassword ? "text" : "password"}
+                      type={showConfirmPassword ? "text" : "password"}
                       {...field}
                       className="h-9 sm:h-10 text-sm sm:text-base pr-10"
                     />
@@ -164,22 +180,19 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
                       variant="ghost"
                       size="icon"
                       className="absolute right-0 top-0 h-full px-3 py-1 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                     >
-                      {showPassword ? (
+                      {showConfirmPassword ? (
                         <EyeOff className="h-4 w-4 text-muted-foreground" />
                       ) : (
                         <Eye className="h-4 w-4 text-muted-foreground" />
                       )}
-                      <span className="sr-only">
-                        {showPassword
-                          ? "Ocultar contraseña"
-                          : "Mostrar contraseña"}
-                      </span>
                     </Button>
                   </div>
                 </FormControl>
-                <FormMessage className="text-xs sm:text-sm" />
+                <FormMessage />
               </FormItem>
             )}
           />

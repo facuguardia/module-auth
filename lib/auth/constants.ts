@@ -7,21 +7,21 @@ export const AUTH_ROUTES = {
 } as const;
 
 export const AUTH_ERRORS = {
-  INVALID_CREDENTIALS: "Invalid login credentials",
-  EMAIL_IN_USE: "Email already in use",
-  WEAK_PASSWORD: "Password is too weak",
-  INVALID_EMAIL: "Invalid email format",
-  UNKNOWN: "An unknown error occurred",
+  INVALID_CREDENTIALS: "Credenciales de inicio de sesión inválidas",
+  EMAIL_IN_USE: "El email ya está en uso",
+  WEAK_PASSWORD: "La contraseña es demasiado débil",
+  INVALID_EMAIL: "Formato de email inválido",
+  UNKNOWN: "Ocurrió un error desconocido",
   RESET_PASSWORD_ERROR: "Error al restablecer la contraseña",
   INVALID_RESET_TOKEN: "Token de recuperación inválido o expirado",
   EMAIL_NOT_FOUND: "No existe una cuenta con este email",
 } as const;
 
 export const AUTH_MESSAGES = {
-  CHECK_EMAIL: "Please check your email for verification",
-  LOGOUT_SUCCESS: "Successfully logged out",
-  LOGIN_SUCCESS: "Successfully logged in",
-  REGISTER_SUCCESS: "Registration successful",
+  CHECK_EMAIL: "Por favor, verifica tu email para continuar",
+  LOGOUT_SUCCESS: "Sesión cerrada correctamente",
+  LOGIN_SUCCESS: "¡Bienvenido a tu dashboard!",
+  REGISTER_SUCCESS: "Registro exitoso",
   RESET_EMAIL_SENT: "Te hemos enviado un email con las instrucciones",
   PASSWORD_RESET_SUCCESS: "Contraseña actualizada correctamente",
 } as const;

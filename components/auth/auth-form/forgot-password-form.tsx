@@ -15,8 +15,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AUTH_MESSAGES } from "@/lib/auth/constants";
+import { AUTH_MESSAGES, AUTH_ERRORS } from "@/lib/auth/constants";
 import { z } from "zod";
+import { useToast } from "@/hooks/use-toast";
 
 const forgotPasswordSchema = z.object({
   email: emailSchema,
@@ -26,6 +27,7 @@ type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
 export function ForgotPasswordForm() {
   const { resetPassword, isLoading, error } = useAuthStore();
+  const { toast } = useToast();
   const [isEmailSent, setIsEmailSent] = useState(false);
 
   const form = useForm<ForgotPasswordFormData>({
@@ -39,8 +41,17 @@ export function ForgotPasswordForm() {
     try {
       await resetPassword(data.email);
       setIsEmailSent(true);
+      toast({
+        title: "Email enviado",
+        description: AUTH_MESSAGES.RESET_EMAIL_SENT,
+      });
     } catch (err) {
       console.error("Error al solicitar recuperación:", err);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error || AUTH_ERRORS.UNKNOWN,
+      });
     }
   };
 

@@ -3,16 +3,27 @@
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/hooks/auth/use-auth-store";
 import { ModeToggle } from "@/components/theme/mode-toggle";
+import { useToast } from "@/hooks/use-toast";
+import { AUTH_ERRORS, AUTH_MESSAGES } from "@/lib/auth/constants";
 
 export function Navbar() {
   const { signOut } = useAuthStore();
+  const { toast } = useToast();
 
   const handleSignOut = async () => {
     try {
       await signOut();
-      // La redirección se maneja en el hook useAuth
+      toast({
+        title: "Sesión cerrada",
+        description: AUTH_MESSAGES.LOGOUT_SUCCESS,
+      });
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: AUTH_ERRORS.UNKNOWN,
+      });
     }
   };
 

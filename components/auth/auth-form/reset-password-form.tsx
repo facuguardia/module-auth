@@ -17,8 +17,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { passwordSchema } from "@/lib/auth/validators";
-import { AUTH_ROUTES, AUTH_MESSAGES } from "@/lib/auth/constants";
+import { AUTH_ROUTES, AUTH_MESSAGES, AUTH_ERRORS } from "@/lib/auth/constants";
 import { Eye, EyeOff } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const resetPasswordSchema = z
   .object({
@@ -34,8 +35,10 @@ type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 
 export function ResetPasswordForm() {
   const { updatePassword, isLoading, error } = useAuthStore();
-  const [showPassword, setShowPassword] = useState(false);
+  const { toast } = useToast();
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
@@ -48,10 +51,18 @@ export function ResetPasswordForm() {
   const onSubmit = async (data: ResetPasswordFormData) => {
     try {
       await updatePassword(data.password);
-      alert(AUTH_MESSAGES.PASSWORD_RESET_SUCCESS);
+      toast({
+        title: "¡Éxito!",
+        description: AUTH_MESSAGES.PASSWORD_RESET_SUCCESS,
+      });
       router.push(AUTH_ROUTES.LOGIN);
     } catch (err) {
       console.error("Error al actualizar contraseña:", err);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error || AUTH_ERRORS.RESET_PASSWORD_ERROR,
+      });
     }
   };
 
@@ -99,7 +110,7 @@ export function ResetPasswordForm() {
               <FormControl>
                 <div className="relative">
                   <Input
-                    type={showPassword ? "text" : "password"}
+                    type={showConfirmPassword ? "text" : "password"}
                     {...field}
                     className="pr-10"
                   />
@@ -108,9 +119,9 @@ export function ResetPasswordForm() {
                     variant="ghost"
                     size="icon"
                     className="absolute right-0 top-0 h-full px-3 py-1 hover:bg-transparent"
-                    onClick={() => setShowPassword(!showPassword)}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
-                    {showPassword ? (
+                    {showConfirmPassword ? (
                       <EyeOff className="h-4 w-4 text-muted-foreground" />
                     ) : (
                       <Eye className="h-4 w-4 text-muted-foreground" />
