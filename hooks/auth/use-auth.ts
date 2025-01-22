@@ -9,9 +9,29 @@ export function useAuth() {
   const { user, setUser, setLoading, isLoading } = useAuthStore();
 
   useEffect(() => {
+    setLoading(true);
+
+    // Verificar sesión inicial
+    const checkSession = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setUser(session?.user || null);
+      } catch (error) {
+        console.error("Error al verificar sesión:", error);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
+
+    // Suscribirse a cambios de autenticación
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN") {
         setUser(session?.user || null);
         router.push(AUTH_ROUTES.DASHBOARD);
@@ -24,7 +44,7 @@ export function useAuth() {
     return () => {
       subscription.unsubscribe();
     };
-  }, [router, setUser]);
+  }, [router, setUser, setLoading]);
 
   return {
     user,

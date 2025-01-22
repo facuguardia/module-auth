@@ -15,15 +15,15 @@ export default async function DashboardPage() {
     redirect(AUTH_ROUTES.LOGIN);
   }
 
-  console.log("Sesión activa en dashboard:", session.user.email);
-
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
       <p className="text-muted-foreground">Bienvenido, {session.user.email}</p>
-      <pre className="mt-4 p-4 bg-slate-100 dark:bg-slate-800 rounded-lg overflow-auto">
-        {JSON.stringify(session.user, null, 2)}
-      </pre>
+      <div className="mt-4 p-4 bg-card rounded-lg border">
+        <pre className="overflow-auto text-sm">
+          {JSON.stringify(session.user, null, 2)}
+        </pre>
+      </div>
     </div>
   );
 }
