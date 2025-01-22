@@ -97,7 +97,7 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm">Nombre</FormLabel>
+                <FormLabel className="text-sm">Nombre y Apellido</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Tu nombre"
