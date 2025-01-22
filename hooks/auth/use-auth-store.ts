@@ -5,13 +5,24 @@ import {
   SignInCredentials,
   SignUpCredentials,
   Provider,
+  OAuthProvider,
 } from "@/types/auth";
 import { supabase } from "@/lib/auth/supabase";
 import { AUTH_ERRORS } from "@/lib/auth/constants";
+import { User } from "@supabase/supabase-js";
+
+const mapUser = (user: User | null): AuthUser | null => {
+  if (!user) return null;
+  return {
+    id: user.id,
+    email: user.email || "",
+    user_metadata: user.user_metadata,
+  };
+};
 
 interface AuthStore extends AuthState {
   signIn: (credentials: SignInCredentials) => Promise<AuthUser | null>;
-  signInWithProvider: (provider: Provider) => Promise<AuthUser | null>;
+  signInWithProvider: (provider: OAuthProvider) => Promise<AuthUser | null>;
   signUp: (credentials: SignUpCredentials) => Promise<void>;
   signOut: () => Promise<void>;
   setUser: (user: AuthUser | null) => void;
@@ -59,9 +70,11 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
       console.log("Login exitoso:", data.user);
 
+      const mappedUser = mapUser(data.user);
+
       // Actualizar el estado
       set({
-        user: data.user,
+        user: mappedUser,
         status: "authenticated",
         error: null,
       });
@@ -69,7 +82,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       // Forzar un refresh de la sesión
       await supabase.auth.getSession();
 
-      return data.user;
+      return mappedUser;
     } catch (error: any) {
       console.error("Error completo:", error);
       set({
@@ -101,7 +114,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       }
 
       set({
-        user: data.user,
+        user: mapUser(data.user),
         status: "unauthenticated", // Mantener como no autenticado hasta confirmar email
         error: null,
       });
@@ -129,7 +142,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     }
   },
 
-  signInWithProvider: async (provider: Provider) => {
+  signInWithProvider: async (provider: OAuthProvider) => {
     try {
       set({ isLoading: true, error: null });
       console.log(`Iniciando login con ${provider}...`);

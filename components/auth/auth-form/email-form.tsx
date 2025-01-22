@@ -21,7 +21,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AUTH_ROUTES, AUTH_MESSAGES, AUTH_ERRORS } from "@/lib/auth/constants";
+import {
+  AUTH_ROUTES,
+  AUTH_MESSAGES,
+  AUTH_ERRORS,
+  AUTH_PROVIDERS,
+} from "@/lib/auth/constants";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -58,7 +63,10 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
           confirmPassword: "",
         });
       } else {
-        const user = await signIn(data as LoginFormData);
+        const user = await signIn({
+          ...(data as LoginFormData),
+          provider: AUTH_PROVIDERS.email,
+        });
         if (user) {
           toast({
             title: "¡Bienvenido!",

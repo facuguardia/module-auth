@@ -1,11 +1,15 @@
-import { User as SupabaseUser, Provider } from '@supabase/supabase-js'
-import { AUTH_PROVIDERS } from '@/lib/auth/constants'
+import {
+  User as SupabaseUser,
+  Provider as SupabaseProvider,
+} from "@supabase/supabase-js";
+import { AUTH_PROVIDERS } from "@/lib/auth/constants";
 
 // Tipos de proveedores de autenticación
-export type Provider = keyof typeof AUTH_PROVIDERS
+export type OAuthProvider = SupabaseProvider;
+export type Provider = OAuthProvider | "email";
 
 // Estado de autenticación
-export type AuthStatus = 'authenticated' | 'unauthenticated' | 'loading'
+export type AuthStatus = "authenticated" | "unauthenticated" | "loading";
 
 // Usuario autenticado
 export interface AuthUser {
@@ -22,40 +26,36 @@ export interface AuthUser {
 
 // Estado global de autenticación
 export interface AuthState {
-  user: AuthUser | null
-  status: AuthStatus
-  isLoading: boolean
-  error: string | null
+  user: AuthUser | null;
+  status: AuthStatus;
+  isLoading: boolean;
+  error: string | null;
 }
 
 // Respuestas de autenticación
 export interface AuthResponse {
-  success: boolean
-  error: string | null
-  user?: AuthUser | null
+  success: boolean;
+  error: string | null;
+  user?: AuthUser | null;
 }
 
 // Credenciales
 export interface SignInCredentials {
-  email: string
-  password: string
-  provider?: Provider
+  email: string;
+  password: string;
+  provider?: Provider;
 }
 
 export interface SignUpCredentials extends SignInCredentials {
-  name?: string
-  avatar_url?: string
+  name?: string;
+  avatar_url?: string;
 }
 
 // Errores personalizados
 export class AuthError extends Error {
-  constructor(
-    message: string,
-    public code?: string,
-    public status?: number
-  ) {
-    super(message)
-    this.name = 'AuthError'
+  constructor(message: string, public code?: string, public status?: number) {
+    super(message);
+    this.name = "AuthError";
   }
 }
 
@@ -63,5 +63,5 @@ export interface GoogleUser {
   email: string;
   name: string;
   avatar_url?: string;
-  provider: 'google';
+  provider: "google";
 }

@@ -44,16 +44,16 @@ export const nameSchema = z
 
 // Esquema de proveedor
 export const providerSchema = z.enum([
-  AUTH_PROVIDERS.GOOGLE,
-  AUTH_PROVIDERS.FACEBOOK,
-  AUTH_PROVIDERS.EMAIL,
+  AUTH_PROVIDERS.google,
+  AUTH_PROVIDERS.facebook,
+  AUTH_PROVIDERS.email,
 ]);
 
 // Esquemas principales
 export const loginSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
-  provider: z.enum(["EMAIL", "GOOGLE", "FACEBOOK"]).optional(),
+  provider: providerSchema.optional(),
 });
 
 export const registerSchema = z

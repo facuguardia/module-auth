@@ -15,6 +15,7 @@ export const AUTH_ERRORS = {
   RESET_PASSWORD_ERROR: "Error al restablecer la contraseña",
   INVALID_RESET_TOKEN: "Token de recuperación inválido o expirado",
   EMAIL_NOT_FOUND: "No existe una cuenta con este email",
+  SOCIAL_LOGIN_ERROR: "Error al iniciar sesión con red social",
 } as const;
 
 export const AUTH_MESSAGES = {
@@ -27,9 +28,9 @@ export const AUTH_MESSAGES = {
 } as const;
 
 export const AUTH_PROVIDERS = {
-  GOOGLE: "google",
-  FACEBOOK: "facebook",
-  EMAIL: "email",
+  google: "google",
+  facebook: "facebook",
+  email: "email",
 } as const;
 
 export const AUTH_VALIDATION = {
