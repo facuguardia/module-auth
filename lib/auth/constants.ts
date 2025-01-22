@@ -11,6 +11,8 @@ export const AUTH_ERRORS = {
   WEAK_PASSWORD: 'Password is too weak',
   INVALID_EMAIL: 'Invalid email format',
   UNKNOWN: 'An unknown error occurred',
+  SOCIAL_LOGIN_ERROR: 'Error al iniciar sesión con red social',
+  SOCIAL_LOGIN_CANCELLED: 'Inicio de sesión cancelado',
 } as const;
 
 export const AUTH_MESSAGES = {

@@ -1,4 +1,4 @@
-import { User as SupabaseUser } from '@supabase/supabase-js'
+import { User as SupabaseUser, Provider } from '@supabase/supabase-js'
 import { AUTH_PROVIDERS } from '@/lib/auth/constants'
 
 // Tipos de proveedores de autenticación
@@ -8,11 +8,16 @@ export type Provider = keyof typeof AUTH_PROVIDERS
 export type AuthStatus = 'authenticated' | 'unauthenticated' | 'loading'
 
 // Usuario autenticado
-export interface AuthUser extends SupabaseUser {
-  name?: string
-  avatar_url?: string
-  provider?: Provider
-  last_sign_in?: string
+export interface AuthUser {
+  id: string;
+  email: string;
+  user_metadata?: {
+    avatar_url?: string;
+    full_name?: string;
+    name?: string;
+    email_verified?: boolean;
+    provider?: Provider;
+  };
 }
 
 // Estado global de autenticación
@@ -52,4 +57,11 @@ export class AuthError extends Error {
     super(message)
     this.name = 'AuthError'
   }
+}
+
+export interface GoogleUser {
+  email: string;
+  name: string;
+  avatar_url?: string;
+  provider: 'google';
 }

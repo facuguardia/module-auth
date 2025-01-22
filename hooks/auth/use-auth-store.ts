@@ -4,19 +4,21 @@ import {
   AuthUser,
   SignInCredentials,
   SignUpCredentials,
+  Provider,
 } from "@/types/auth";
 import { supabase } from "@/lib/auth/supabase";
 import { AUTH_ERRORS } from "@/lib/auth/constants";
-import { AUTH_ROUTES } from "@/lib/auth/constants";
 
 interface AuthStore extends AuthState {
   signIn: (credentials: SignInCredentials) => Promise<AuthUser | null>;
+  signInWithProvider: (provider: Provider) => Promise<AuthUser | null>;
   signUp: (credentials: SignUpCredentials) => Promise<void>;
   signOut: () => Promise<void>;
   setUser: (user: AuthUser | null) => void;
   setError: (error: string | null) => void;
   setLoading: (isLoading: boolean) => void;
   reset: () => void;
+  signInWithGoogle: () => Promise<AuthUser | null>;
 }
 
 const initialState = {
@@ -120,14 +122,76 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ isLoading: true, error: null });
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      
       set({ user: null, status: "unauthenticated" });
-      
-      // Forzar redirección al login
-      window.location.href = AUTH_ROUTES.LOGIN;
-    } catch (error: any) {
-      console.error("Error al cerrar sesión:", error);
+    } catch (error) {
       set({ error: AUTH_ERRORS.UNKNOWN });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  signInWithProvider: async (provider: Provider) => {
+    try {
+      set({ isLoading: true, error: null });
+      console.log(`Iniciando login con ${provider}...`);
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      // No necesitamos setear el usuario aquí ya que se manejará en el callback
+      return null;
+    } catch (error: any) {
+      console.error(`Error en login con ${provider}:`, error);
+      set({
+        error: error.message || AUTH_ERRORS.SOCIAL_LOGIN_ERROR,
+        status: "unauthenticated",
+      });
+      return null;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  signInWithGoogle: async () => {
+    try {
+      set({ isLoading: true, error: null });
+      console.log("Iniciando login con Google...");
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: "offline",
+            prompt: "select_account",
+          },
+        },
+      });
+
+      if (error) {
+        console.error("Error en login con Google:", error);
+        throw error;
+      }
+
+      // El usuario será manejado en el callback
+      return null;
+    } catch (error: any) {
+      console.error("Error completo:", error);
+      set({
+        error: error.message || "Error al iniciar sesión con Google",
+        status: "unauthenticated",
+      });
+      return null;
     } finally {
       set({ isLoading: false });
     }

@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔐 Next.js Authentication Module
 
-## Getting Started
+<div align="center">
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-15%2B-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-blue)
+![Supabase](https://img.shields.io/badge/Supabase-Latest-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Una solución moderna y reutilizable de autenticación construida con Next.js, TypeScript y Supabase.
+
+[Demo](https://demo-url.com) · [Reportar Bug](https://github.com/yourusername/nextjs-auth-module/issues) · [Solicitar Feature](https://github.com/yourusername/nextjs-auth-module/issues)
+
+</div>
+
+## ✨ Características
+
+- 🚀 **Stack Moderno**: Next.js 15+, TypeScript, Supabase
+- 🔐 **Autenticación Completa**: Login, Registro, Recuperación de contraseña
+- 🌐 **Auth Social**: Integración con Google
+- 🎨 **UI Moderna**: Componentes de Shadcn/UI + Tailwind CSS
+- 🌙 **Tema Oscuro**: Soporte completo para modo oscuro
+- 📱 **Responsive**: Diseño adaptable a todos los dispositivos
+- 🔒 **Seguridad**: Rutas protegidas y validación con Zod
+- 🏪 **Estado Global**: Gestión eficiente con Zustand
+
+## 🚀 Inicio Rápido
+
+1. **Clona el repositorio**
+
+   ```bash
+   git clone https://github.com/yourusername/nextjs-auth-module.git
+   cd nextjs-auth-module
+   ```
+
+2. **Instala dependencias**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Configura las variables de entorno**
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Edita `.env.local` con tus credenciales:
+
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=tu_url_de_supabase
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_clave_anonima
+   ```
+
+4. **Inicia el servidor de desarrollo**
+   ```bash
+   pnpm dev
+   ```
+
+## 📁 Estructura del Proyecto
+
+```
+├── app/                  # Rutas y páginas
+├── components/          # Componentes React
+│   ├── auth/           # Componentes de autenticación
+│   ├── dashboard/      # Componentes del dashboard
+│   └── ui/             # Componentes UI reutilizables
+├── hooks/              # Custom hooks
+├── lib/                # Utilidades y configuraciones
+└── types/              # Definiciones TypeScript
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 Configuración de Supabase
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Crea un proyecto en [Supabase](https://supabase.com)
+2. Habilita autenticación por Email y Google en **Authentication > Providers**
+3. Configura las URLs de redirección en **Authentication > URL Configuration**:
+   ```
+   http://localhost:3000/auth/callback
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💡 Uso
 
-## Learn More
+**Proteger una Ruta**
 
-To learn more about Next.js, take a look at the following resources:
+```tsx
+import { ProtectedRoute } from "@/components/auth/protected-route";
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+export default function DashboardPage() {
+  return (
+    <ProtectedRoute>
+      <div>Contenido Protegido</div>
+    </ProtectedRoute>
+  );
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Usar Hook de Autenticación**
 
-## Deploy on Vercel
+```tsx
+import { useAuth } from "@/hooks/auth/use-auth";
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+export function MyComponent() {
+  const { user, isLoading } = useAuth();
+  // Tu código aquí
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Contribuir
+
+Las contribuciones son bienvenidas. Por favor:
+
+1. Haz Fork del proyecto
+2. Crea tu rama (`git checkout -b feature/AmazingFeature`)
+3. Commitea tus cambios (`git commit -m 'Add: nueva característica'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+Distribuido bajo la Licencia MIT. Ver `LICENSE` para más información.
+
+## 🙏 Agradecimientos
+
+- [Shadcn/UI](https://ui.shadcn.com/)
+- [Supabase](https://supabase.io/)
+- [Next.js](https://nextjs.org/)
+
+---
+
+<div align="center">
+Si este proyecto te fue útil, ¡dale una ⭐️!
+
+[⬆ Volver arriba](#)</div>
