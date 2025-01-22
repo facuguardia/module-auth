@@ -16,19 +16,19 @@ export function SocialButtons() {
   };
 
   return (
-    <div className="grid w-full">
+    <div className="grid w-full gap-2">
       <Button
         variant="outline"
         type="button"
         disabled={isLoading}
         onClick={handleGoogleLogin}
-        className="w-full"
+        className="w-full h-9 sm:h-10 text-sm sm:text-base"
       >
         {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.spinner className="mr-2 h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
         ) : (
           <svg
-            className="mr-2 h-4 w-4"
+            className="mr-2 h-3 w-3 sm:h-4 sm:w-4"
             aria-hidden="true"
             focusable="false"
             data-prefix="fab"

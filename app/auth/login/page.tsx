@@ -11,7 +11,7 @@ export default function LoginPage() {
         description="Ingresa tus credenciales para continuar"
       />
       <AuthForm />
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-center text-xs sm:text-sm text-muted-foreground">
         ¿No tienes una cuenta?{" "}
         <Link href="/auth/register" className="text-primary hover:underline">
           Regístrate

@@ -11,7 +11,7 @@ export default function RegisterPage() {
         description="Ingresa tus datos para registrarte"
       />
       <AuthForm isRegister />
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-center text-xs sm:text-sm text-muted-foreground">
         ¿Ya tienes una cuenta?{" "}
         <Link href="/auth/login" className="text-primary hover:underline">
           Inicia sesión

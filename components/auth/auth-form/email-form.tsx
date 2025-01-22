@@ -55,18 +55,25 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-3 sm:space-y-4"
+      >
         {isRegister && (
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nombre</FormLabel>
+                <FormLabel className="text-sm">Nombre</FormLabel>
                 <FormControl>
-                  <Input placeholder="Tu nombre" {...field} />
+                  <Input
+                    placeholder="Tu nombre"
+                    {...field}
+                    className="h-9 sm:h-10 text-sm sm:text-base"
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-xs sm:text-sm" />
               </FormItem>
             )}
           />
@@ -76,11 +83,15 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-sm">Email</FormLabel>
               <FormControl>
-                <Input placeholder="nombre@ejemplo.com" {...field} />
+                <Input
+                  placeholder="nombre@ejemplo.com"
+                  {...field}
+                  className="h-9 sm:h-10 text-sm sm:text-base"
+                />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs sm:text-sm" />
             </FormItem>
           )}
         />
@@ -89,16 +100,26 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Contraseña</FormLabel>
+              <FormLabel className="text-sm">Contraseña</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                <Input
+                  type="password"
+                  {...field}
+                  className="h-9 sm:h-10 text-sm sm:text-base"
+                />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs sm:text-sm" />
             </FormItem>
           )}
         />
-        {error && <div className="text-sm text-red-500">{error}</div>}
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        {error && (
+          <div className="text-xs sm:text-sm text-red-500">{error}</div>
+        )}
+        <Button
+          type="submit"
+          className="w-full h-9 sm:h-10 text-sm sm:text-base mt-2"
+          disabled={isLoading}
+        >
           {isLoading
             ? "Cargando..."
             : isRegister
