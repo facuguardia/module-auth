@@ -56,10 +56,17 @@ export const loginSchema = z.object({
   provider: z.enum(["EMAIL", "GOOGLE", "FACEBOOK"]).optional(),
 });
 
-export const registerSchema = loginSchema.extend({
-  name: nameSchema,
-  password: passwordSchema,
-});
+export const registerSchema = z
+  .object({
+    name: nameSchema,
+    email: emailSchema,
+    password: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Las contraseñas no coinciden",
+    path: ["confirmPassword"],
+  });
 
 // Tipos inferidos
 export type LoginFormData = z.infer<typeof loginSchema>;

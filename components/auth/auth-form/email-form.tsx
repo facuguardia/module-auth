@@ -26,7 +26,6 @@ import { Eye, EyeOff } from "lucide-react";
 interface EmailFormProps {
   isRegister?: boolean;
 }
-
 export function EmailForm({ isRegister = false }: EmailFormProps) {
   const { signIn, signUp, isLoading, error } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +35,7 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
     defaultValues: {
       email: "",
       password: "",
-      ...(isRegister && { name: "" }),
+      ...(isRegister && { name: "", confirmPassword: "" }),
     },
   });
 
@@ -135,6 +134,45 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
             </FormItem>
           )}
         />
+        {isRegister && (
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm">Confirmar Contraseña</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      {...field}
+                      className="h-9 sm:h-10 text-sm sm:text-base pr-10"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-0 top-0 h-full px-3 py-1 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-muted-foreground" />
+                      )}
+                      <span className="sr-only">
+                        {showPassword
+                          ? "Ocultar contraseña"
+                          : "Mostrar contraseña"}
+                      </span>
+                    </Button>
+                  </div>
+                </FormControl>
+                <FormMessage className="text-xs sm:text-sm" />
+              </FormItem>
+            )}
+          />
+        )}
         {error && (
           <div className="text-xs sm:text-sm text-red-500">{error}</div>
         )}
