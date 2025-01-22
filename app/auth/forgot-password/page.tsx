@@ -3,18 +3,18 @@ import { AuthForm } from "@/components/auth/auth-form";
 import { AuthHeader } from "@/components/auth/auth-header";
 import Link from "next/link";
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   return (
     <AuthContainer>
       <AuthHeader
-        title="Iniciar Sesión"
-        description="Ingresa tus credenciales para continuar"
+        title="Recuperar contraseña"
+        description="Ingresa tu email para recibir las instrucciones"
       />
-      <AuthForm />
+      <AuthForm isForgotPassword />
       <p className="text-center text-xs sm:text-sm text-muted-foreground">
-        ¿No tienes una cuenta?{" "}
-        <Link href="/auth/register" className="text-primary hover:underline">
-          Regístrate
+        ¿Recordaste tu contraseña?{" "}
+        <Link href="/auth/login" className="text-primary hover:underline">
+          Volver al login
         </Link>
       </p>
     </AuthContainer>

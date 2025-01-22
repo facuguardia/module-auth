@@ -26,9 +26,12 @@ export async function middleware(req: NextRequest) {
     );
 
     // Rutas de autenticación
-    const isAuthRoute = [AUTH_ROUTES.LOGIN, AUTH_ROUTES.REGISTER].includes(
-      req.nextUrl.pathname
-    );
+    const isAuthRoute = [
+      AUTH_ROUTES.LOGIN,
+      AUTH_ROUTES.REGISTER,
+      AUTH_ROUTES.FORGOT_PASSWORD,
+      AUTH_ROUTES.RESET_PASSWORD,
+    ].includes(req.nextUrl.pathname);
 
     // Si hay sesión y estamos en una ruta de auth, redirigir al dashboard
     if (session && isAuthRoute) {

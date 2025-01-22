@@ -19,6 +19,8 @@ interface AuthStore extends AuthState {
   setLoading: (isLoading: boolean) => void;
   reset: () => void;
   signInWithGoogle: () => Promise<AuthUser | null>;
+  resetPassword: (email: string) => Promise<void>;
+  updatePassword: (password: string) => Promise<void>;
 }
 
 const initialState = {
@@ -192,6 +194,43 @@ export const useAuthStore = create<AuthStore>((set) => ({
         status: "unauthenticated",
       });
       return null;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  resetPassword: async (email: string) => {
+    try {
+      set({ isLoading: true, error: null });
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
+      });
+
+      if (error) throw error;
+    } catch (error: any) {
+      set({
+        error: error.message || AUTH_ERRORS.RESET_PASSWORD_ERROR,
+        status: "unauthenticated",
+      });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  updatePassword: async (password: string) => {
+    try {
+      set({ isLoading: true, error: null });
+      const { error } = await supabase.auth.updateUser({
+        password: password,
+      });
+
+      if (error) throw error;
+
+      set({ error: null });
+    } catch (error: any) {
+      set({
+        error: error.message || AUTH_ERRORS.RESET_PASSWORD_ERROR,
+      });
     } finally {
       set({ isLoading: false });
     }

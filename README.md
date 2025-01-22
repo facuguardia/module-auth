@@ -9,7 +9,7 @@
 
 Una solución moderna y reutilizable de autenticación construida con Next.js, TypeScript y Supabase.
 
-[Demo](https://demo-url.com) · [Reportar Bug](https://github.com/yourusername/nextjs-auth-module/issues) · [Solicitar Feature](https://github.com/yourusername/nextjs-auth-module/issues)
+[Demo](https://demo-url.com) · [Reportar Bug](https://github.com/facuguardia/nextjs-auth-module/issues) · [Solicitar Feature](https://github.com/facuguardia/nextjs-auth-module/issues)
 
 </div>
 
@@ -29,14 +29,14 @@ Una solución moderna y reutilizable de autenticación construida con Next.js, T
 1. **Clona el repositorio**
 
    ```bash
-   git clone https://github.com/yourusername/nextjs-auth-module.git
+   git clone https://github.com/facuguardia/nextjs-auth-module.git
    cd nextjs-auth-module
    ```
 
 2. **Instala dependencias**
 
    ```bash
-   pnpm install
+   npm install
    ```
 
 3. **Configura las variables de entorno**
@@ -54,7 +54,7 @@ Una solución moderna y reutilizable de autenticación construida con Next.js, T
 
 4. **Inicia el servidor de desarrollo**
    ```bash
-   pnpm dev
+   npm run dev
    ```
 
 ## 📁 Estructura del Proyecto

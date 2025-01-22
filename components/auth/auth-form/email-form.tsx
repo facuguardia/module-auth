@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import  Link  from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/hooks/auth/use-auth-store";
@@ -102,7 +103,17 @@ export function EmailForm({ isRegister = false }: EmailFormProps) {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm">Contraseña</FormLabel>
+              <div className="flex justify-between items-center">
+                <FormLabel className="text-sm">Contraseña</FormLabel>
+                {!isRegister && (
+                  <Link
+                    href={AUTH_ROUTES.FORGOT_PASSWORD}
+                    className="text-sm text-primary hover:underline"
+                  >
+                    ¿Olvidaste tu contraseña?
+                  </Link>
+                )}
+              </div>
               <FormControl>
                 <div className="relative">
                   <Input

@@ -1,11 +1,17 @@
 import { EmailForm } from "./email-form"
 import { SocialButtons } from "./social-buttons"
+import { ForgotPasswordForm } from "./forgot-password-form"
 
 interface AuthFormProps {
   isRegister?: boolean
+  isForgotPassword?: boolean
 }
 
-export function AuthForm({ isRegister = false }: AuthFormProps) {
+export function AuthForm({ isRegister = false, isForgotPassword = false }: AuthFormProps) {
+  if (isForgotPassword) {
+    return <ForgotPasswordForm />
+  }
+
   return (
     <div className="space-y-6">
       <EmailForm isRegister={isRegister} />
