@@ -9,7 +9,7 @@
 
 Una solución moderna y reutilizable de autenticación construida con Next.js, TypeScript y Supabase.
 
-[Demo](https://demo-url.com) · [Reportar Bug](https://github.com/facuguardia/nextjs-auth-module/issues) · [Solicitar Feature](https://github.com/facuguardia/nextjs-auth-module/issues)
+[Demo](https://module-auth-roan.vercel.app/auth/login) · [Reportar Bug](https://github.com/facuguardia/module-auth/issues) · [Solicitar Feature](https://github.com/facuguardia/module-auth/issues)
 
 </div>
 
@@ -29,8 +29,8 @@ Una solución moderna y reutilizable de autenticación construida con Next.js, T
 1. **Clona el repositorio**
 
    ```bash
-   git clone https://github.com/facuguardia/nextjs-auth-module.git
-   cd nextjs-auth-module
+   git clone https://github.com/facuguardia/module-auth.git
+   cd module-auth
    ```
 
 2. **Instala dependencias**
@@ -76,8 +76,12 @@ Una solución moderna y reutilizable de autenticación construida con Next.js, T
 2. Habilita autenticación por Email y Google en **Authentication > Providers**
 3. Configura las URLs de redirección en **Authentication > URL Configuration**:
    ```
-   http://localhost:3000/auth/callback
+   https://localhost:3000/auth/callback
+   https://localhost:3000/auth/login
+   https://localhost:3000/auth/register
+   https://localhost:3000
    ```
+
 
 ## 💡 Uso
 
@@ -87,13 +91,13 @@ Una solución moderna y reutilizable de autenticación construida con Next.js, T
 import { ProtectedRoute } from "@/components/auth/protected-route";
 
 export default function DashboardPage() {
-  return (
-    <ProtectedRoute>
-      <div>Contenido Protegido</div>
-    </ProtectedRoute>
-  );
+return (
+ <ProtectedRoute>
+   <div>Contenido Protegido</div>
+ </ProtectedRoute>
+);
 }
-```
+````
 
 **Usar Hook de Autenticación**
 
